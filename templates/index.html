@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/static/bootstrap-3.3.7/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container">
+    <nav class="row navbar navbar-inverse" style="padding-left: 0; padding-right: 0;">
+        <div class="container-fluid">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                        data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand"></a>
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                    <li class="active"><a href="/show_excel/">查看所有<span class="sr-only">(current)</span></a></li>
+                    <li><a href="/export_excel/">全部导出</a></li>
+
+                </ul>
+
+                <form class="navbar-form navbar-left" action="/show_excel/">
+                    <label for="start" style="color:blue">开始时间:</label>
+                    <div class="form-group">
+                        <input type="date" class="form-control" id="start" name="start">
+                    </div>
+                    <label for="end" style="color:blue">结束时间:</label>
+                    <div class="form-group">
+                        <input type="date" class="form-control" id="end" name="end">
+                    </div>
+                    <label for="types" style="color:blue">类型:</label>
+                    <div class="form-group">
+                        <select  class="form-control" id="types" name="types">
+                            <option value="0">默认全部</option>
+                            {% for i in type_list %}
+                            <option value="{{ i.type }}">{{ i.type }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-info">查找</button>
+                </form>
+
+                <a class="btn btn-danger pull-right" style="margin-top: 5px;" data-toggle="modal" data-target="#myModal">全部删除</a>
+            </div><!-- /.navbar-collapse -->
+        </div><!-- /.container-fluid -->
+    </nav>
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h3 class="modal-title" id="myModalLabel">警告</h3>
+      </div>
+      <div class="modal-body">
+        <strong>确认全部删除?</strong>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+        <button type="button" class="btn btn-primary" id="true_btn">确认</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+    <div class="row">
+        <div class="panel panel-primary">
+            <div class="panel-heading">内容</div>
+
+            <table class="table">
+                <tr>
+                    <th>编号</th>
+                    <th>地点名称</th>
+                    <th>类型名称</th>
+                    <th>手机号码</th>
+                    <th>时间日期</th>
+                </tr>
+                {% for i in all_message %}
+                <tr>
+                    <td>{{ i.pk }}</td>
+                    <td>{{ i.area }}</td>
+                    <td>{{ i.type }}</td>
+                    <td>{{ i.phone }}</td>
+                    <td>{{ i.datetime }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+        <div>
+            <a href="/export_excel/?start={{ start }}&end={{ end }}&types={{ types }}"><li class="btn btn-primary">导出数据</li></a>
+        </div>
+        </div>
+    </div>
+</div>
+<script src="/static/js/jquery-3.3.1.min.js"></script>
+<script src="/static/bootstrap-3.3.7/js/bootstrap.min.js"></script>
+<script src="/static/js/login.js"></script>
+</body>
+</html>
